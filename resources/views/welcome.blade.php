@@ -24,6 +24,9 @@
         <div>
             <a href="{{ route('logout') }}">Log Out</a>
         </div>
+        <div>
+            <a href="{{route('changePassword')}}">Change Password</a>
+        </div>
 
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             @if (Route::has('login'))

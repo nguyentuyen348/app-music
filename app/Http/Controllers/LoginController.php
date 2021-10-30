@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
     public function showFormLogin()
     {
-        return view('login.login');
+        return view('backend.login');
     }
 
     public function login(LoginRequest $request)
@@ -33,6 +35,23 @@ class LoginController extends Controller
         } else {
             return back();
         }
+    }
+
+    public function showFormChangePassword()
+    {
+        return view('backend.change_password');
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        $user = Auth::user();
+        $currentPassword = $user->password;
+        if (!Hash::check($request->currentPassword, $currentPassword)) {
+            return redirect()->back()->withErrors(['currentPassword' => 'Sai mật khẩu vui lòng thử lại']);
+        }
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return redirect()->route('login');
     }
 
     public function logout()

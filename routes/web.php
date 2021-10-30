@@ -15,11 +15,10 @@ use App\Http\Controllers\LoginController;
 |
 */
 
-
-  Route::get('/', [LoginController::class, 'showFormLogin'])->name('login');
-  Route::post('/login', [LoginController::class, 'login'])->name('login.login');
-
-  Route::get('/register',[RegisterController::class,'showFormRegister'])->name('register');
-  Route::post('/register',[RegisterController::class,'register'])->name('auth.register');
-
-  Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/register', [RegisterController::class, 'showFormRegister'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('auth.register');
+Route::get('/', [LoginController::class, 'showFormLogin'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.login');
+Route::get('/changePassword', [LoginController::class, 'showFormChangePassword'])->name('showChangePassword');
+Route::post('/changePassword', [LoginController::class, 'changePassword'])->name('changePassword');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
