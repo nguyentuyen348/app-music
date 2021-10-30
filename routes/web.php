@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -30,4 +29,4 @@ Route::prefix('users')->group(function (){
     Route::post('{id}/edit',[\App\Http\Controllers\UserController::class,'update'])->name('users.update');
 });
 
-Route::get('/list', [CategoriesController::class, 'index'])->name('categories.list');
+Route::get('/list',[\App\Http\Controllers\CategoriesController::class, 'index'])->name('categories.list');
