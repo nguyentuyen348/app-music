@@ -28,5 +28,3 @@ Route::prefix('users')->group(function (){
     Route::get('{id}/edit',[\App\Http\Controllers\UserController::class,'edit'])->name('users.edit');
     Route::post('{id}/edit',[\App\Http\Controllers\UserController::class,'update'])->name('users.update');
 });
-
-Route::get('/list',[\App\Http\Controllers\CategoriesController::class, 'index'])->name('categories.list');

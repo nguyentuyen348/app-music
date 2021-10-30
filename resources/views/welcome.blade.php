@@ -24,12 +24,6 @@
         <div>
             <a href="{{ route('logout') }}">Log Out</a>
         </div>
-
-        <div>
-            <a href="{{ route('categories.list') }}">Categories</a>
-        </div>
-
-
         <div>
             <a href="{{route('changePassword')}}">Change Password</a>
         </div>
