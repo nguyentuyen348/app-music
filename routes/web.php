@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,5 @@ use App\Http\Controllers\LoginController;
   Route::post('/register',[RegisterController::class,'register'])->name('auth.register');
 
   Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+  Route::get('/list', [CategoriesController::class, 'index'])->name('categories.index');
