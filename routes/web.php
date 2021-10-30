@@ -14,10 +14,11 @@ use App\Http\Controllers\LoginController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
-
-  
-    Route::get('/', [LoginController::class, 'showFormLogin'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->name('login.login');
+  Route::get('/', [LoginController::class, 'showFormLogin'])->name('login');
+  Route::post('/login', [LoginController::class, 'login'])->name('login.login');
 
 
