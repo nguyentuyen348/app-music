@@ -22,3 +22,4 @@ use App\Http\Controllers\LoginController;
   Route::get('/register',[RegisterController::class,'showFormRegister'])->name('register');
   Route::post('/register',[RegisterController::class,'register'])->name('auth.register');
 
+  Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
