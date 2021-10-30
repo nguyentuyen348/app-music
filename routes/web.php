@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/register',[RegisterController::class,'showFormRegister'])->name('register');
-Route::post('/register',[RegisterController::class,'register'])->name('auth.register');
+Route::get('/register', [RegisterController::class, 'showFormRegister'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('auth.register');
+Route::get('/', [LoginController::class, 'showFormLogin'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.login');
+Route::get('/changePassword', [LoginController::class, 'showFormChangePassword'])->name('showChangePassword');
+Route::post('/changePassword', [LoginController::class, 'changePassword'])->name('changePassword');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::prefix('users')->group(function (){
     Route::get('{id}/profile',[\App\Http\Controllers\UserController::class,'profile'])->name('users.profile');

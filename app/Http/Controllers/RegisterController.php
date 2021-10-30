@@ -28,6 +28,6 @@ class RegisterController extends Controller
         } catch (Exception $exception) {
             DB::rollBack();
         }
-        return view('backend.register');
+        return view('backend.login');
     }
 }
