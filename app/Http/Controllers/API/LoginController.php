@@ -1,22 +1,21 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class LoginController extends Controller
 {
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
-
         $user_name = $request->user_name;
         $email = $request->user_name;
         $password = $request->password;
 
-        $credentials = [
+        $credentials_username = [
             'user_name' => $user_name,
             'password' => $password
         ];
@@ -24,12 +23,15 @@ class LoginController extends Controller
             'email' => $email,
             'password' => $password
         ];
-
-        if (Auth::attempt($credentials) || Auth::attempt($credentials_email)) {
-            return view('welcome');
-        } else {
-            return back();
+        $token_username = JWTAuth::attempt($credentials_username);
+        $token_email = JWTAuth::attempt($credentials_email);
+        try {
+            if ($token_username || $token_email) {
+                return response()->json(compact('token_username', 'token_email'));
+            }
+        } catch (JWTException $exception) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
         }
+        return response()->json(['error' => 'invalid_credentials'], 400);
     }
-
 }
