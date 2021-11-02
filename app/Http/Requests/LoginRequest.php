@@ -24,18 +24,16 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_name' => 'required',
-            'password' => 'required|min:6|max:8'
+            'email' => 'required',
+            'password' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'user_name.required' => 'Trường này không được để trống!',
+            'email.required' => 'Trường này không được để trống!',
             'password.required' => 'Trường này không được để trống!',
-            'password.min' => 'Trường này có ít nhất 6 ký tự!',
-            'password.max' => 'Trường này có nhiều nhất 8 ký tự!',
         ];
     }
 }
