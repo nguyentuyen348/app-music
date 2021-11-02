@@ -19,3 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('login',[\App\Http\Controllers\API\LoginController::class, 'login']);
+
+Route::prefix('users')->group(function (){
+    Route::get('{id}/profile',[\App\Http\Controllers\API\UserController::class, 'profile']);
+    Route::put('{id}/update',[\App\Http\Controllers\API\UserController::class, 'update']);
+});
+

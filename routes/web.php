@@ -31,3 +31,5 @@ Route::prefix('users')->group(function (){
 });
 
 Route::get('/list', [CategoriesController::class, 'index'])->name('categories.list');
+
+

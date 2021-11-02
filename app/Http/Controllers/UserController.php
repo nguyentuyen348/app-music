@@ -33,6 +33,6 @@ class UserController extends Controller
             $user->avatar=$avatar;
         }
         $user->save();
-        return redirect()->route('users.profile',compact('user','id'));
+        return redirect()->route('users.profile',$user->id);
     }
 }

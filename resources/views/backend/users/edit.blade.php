@@ -1,6 +1,7 @@
 
 <div class="container">
     <div>
+
         <form action="" method="post" enctype="multipart/form-data">
             @csrf
             @if($user)
@@ -24,5 +25,6 @@
             @endif
             <button type="submit">submit</button>
         </form>
+
     </div>
 </div>
