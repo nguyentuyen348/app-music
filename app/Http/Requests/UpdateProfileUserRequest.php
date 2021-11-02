@@ -27,7 +27,7 @@ class UpdateProfileUserRequest extends FormRequest
             'full_name' => 'required|',
             'phone' => 'required|numeric|digits:10',
             'address' => 'required|',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
             'avatar' => '',
         ];
     }
