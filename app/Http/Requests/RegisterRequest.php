@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegisterRequest extends FormRequest
 {
@@ -46,5 +49,10 @@ class RegisterRequest extends FormRequest
             'password.max' => 'Mật khẩu cần phải nhập từ 6 đến 8 ký tự',
             'password.confirmed' => 'Mật khẩu nhập lại không khớp!'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 }
