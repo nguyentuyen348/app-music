@@ -27,7 +27,8 @@ class LoginController extends Controller
             if ($token) {
                 $data = [
                     'token'=> $token,
-                    'user' => Auth::user()
+                    'user' => Auth::user(),
+                    'status' => 'success'
                 ];
                 return response()->json($data);
             }
