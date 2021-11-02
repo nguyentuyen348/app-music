@@ -26,3 +26,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
 });
 
+
+Route::prefix('users')->group(function (){
+    Route::get('{id}/profile',[\App\Http\Controllers\API\UserController::class, 'profile']);
+    Route::put('{id}/update',[\App\Http\Controllers\API\UserController::class, 'update']);
+});
+
