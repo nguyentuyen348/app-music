@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileUserRequest;
 use App\Models\User;
+use http\Message;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -11,13 +13,7 @@ class UserController extends Controller
     public function profile($id)
     {
         $user=User::findOrFail($id);
-        return view('backend.users.profile',compact('user'));
-    }
-
-    public function edit($id)
-    {
-        $user=User::findOrFail($id);
-        return view('backend.users.edit',compact('user'));
+        return response()->json($user);
     }
 
     public function update(UpdateProfileUserRequest $request,$id)
@@ -33,6 +29,6 @@ class UserController extends Controller
             $user->avatar=$avatar;
         }
         $user->save();
-        return redirect()->route('users.profile',$user->id);
+        return response()->json(compact('user'));
     }
 }
