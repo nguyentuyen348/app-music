@@ -23,7 +23,7 @@ class CreateSongsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id');
             $table->string('album');
-            $table->integer('views');
+            $table->integer('listens');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
 use App\Models\Song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,12 +10,6 @@ use Mockery\Exception;
 
 class SongController extends Controller
 {
-    public function create()
-    {
-        $categories = Category::all();
-        return view('backend.books.add', compact('categories'));
-    }
-
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -32,8 +26,18 @@ class SongController extends Controller
             $song->listens = 0;
             $song->save();
             DB::commit();
+            $data = [
+                'status' => 'success',
+                'message' => 'Thêm bài hát thành công'
+            ];
+            return response()->json($data);
         } catch (Exception $exception) {
             DB::rollBack();
+            $data = [
+                'status' => 'error',
+                'message' => 'Thêm bài hát thất bại'
+            ];
+            return response()->json($data);
         }
     }
 }

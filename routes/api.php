@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\LoginController;
+use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\SongController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,11 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('register', [\App\Http\Controllers\API\RegisterController::class, 'register']);
-Route::post('login', [\App\Http\Controllers\API\LoginController::class, 'login']);
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [LoginController::class, 'login']);
 Route::group(['middleware' => ['jwt.verify']], function () {
-
-    Route::post('user', [\App\Http\Controllers\API\LoginController::class, 'getAuthenticatedUser']);
-
+    Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
 });
+Route::post('create-song',[SongController::class,'store']);
 
