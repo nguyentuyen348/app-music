@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\SongController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,12 +24,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
+Route::get('categories', [SongController::class, 'getCategories']);
 Route::group(['middleware' => ['jwt.verify']], function () {
-    Route::post('logout', [\App\Http\Controllers\API\LoginController::class, 'logout']);
+    Route::post('logout', [LoginController::class, 'logout']);
     Route::prefix('users')->group(function () {
-        Route::get('{id}/profile', [\App\Http\Controllers\API\UserController::class, 'profile']);
-        Route::put('{id}/update', [\App\Http\Controllers\API\UserController::class, 'update']);
-        Route::post('user', [\App\Http\Controllers\API\LoginController::class, 'getAuthenticatedUser']);
+        Route::get('{id}/profile', [UserController::class, 'profile']);
+        Route::put('{id}/update', [UserController::class, 'update']);
+        Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
         Route::post('create-song', [SongController::class, 'store']);
     });
 });

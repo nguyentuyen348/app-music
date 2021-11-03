@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,5 +41,11 @@ class SongController extends Controller
             ];
             return response()->json($data);
         }
+    }
+
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
     }
 }
