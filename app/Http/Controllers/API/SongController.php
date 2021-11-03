@@ -7,6 +7,7 @@ use App\Models\Song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class SongController extends Controller
 {

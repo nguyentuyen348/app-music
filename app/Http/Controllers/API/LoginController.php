@@ -49,7 +49,7 @@ class LoginController extends Controller
             return response()->json(
                 [
                     'status' => 'success',
-                    'message' => 'Đăng xuất thành công' 
+                    'message' => 'Đăng xuất thành công'
                 ]);
         } catch (JWTException $exception) {
             return response()->json([
