@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 
 class LoginController extends Controller
@@ -38,6 +39,23 @@ class LoginController extends Controller
             return response()->json($data);
         } catch (JWTException $exception) {
             return response()->json($exception->getMessage());
+        }
+    }
+
+    public function logout()
+    {
+        try {
+            auth()->logout();
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'message' => 'Đăng xuất thành công' 
+                ]);
+        } catch (JWTException $exception) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Đăng xuất thất bại'
+            ]);
         }
     }
 
