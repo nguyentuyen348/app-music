@@ -61,7 +61,6 @@ class LoginController extends Controller
 
     public function getAuthenticatedUser()
     {
-
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
