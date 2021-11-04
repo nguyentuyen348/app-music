@@ -25,14 +25,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::get('categories', [SongController::class, 'getCategories']);
+Route::post('logout', [LoginController::class, 'logout']);
 Route::group(['middleware' => ['jwt.verify']], function () {
-    Route::post('logout', [LoginController::class, 'logout']);
     Route::prefix('users')->group(function () {
         Route::get('{id}/profile', [UserController::class, 'profile']);
         Route::put('{id}/update', [UserController::class, 'update']);
         Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
+    });
+    Route::prefix('songs')->group(function () {
         Route::post('create-song', [SongController::class, 'store']);
+        Route::get('{id}/detailSong', [SongController::class, 'getByIdSong']);
+        Route::put('{id}/update-song', [SongController::class, 'update']);
     });
 });
-
-

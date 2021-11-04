@@ -48,4 +48,39 @@ class SongController extends Controller
         $categories = Category::all();
         return response()->json($categories);
     }
+
+    public function getByIdSong($id){
+        $song = auth()->user()->songs()->findOrFail($id);
+        return response()->json($song);
+    }
+
+    public function update(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $song = Song::findOrFail($id);
+            $song->name = $request->name;
+            $song->description = $request->description;
+            $song->file_mp3 = $request->file_mp3;
+            $song->image = $request->image;
+            $song->author = $request->author;
+            $song->album = $request->album;
+            $song->category_id = $request->category_id;
+            $song->save();
+            DB::commit();
+            $data = [
+                'status' => 'success',
+                'message' => 'Sửa bài hát thành công'
+            ];
+            return response()->json($data);
+        } catch (Exception $exception) {
+            DB::rollBack();
+            $data = [
+                'status' => 'error',
+                'message' => 'Sửa bài hát thất bại'
+            ];
+            return response()->json($data);
+        }
+    }
+
 }

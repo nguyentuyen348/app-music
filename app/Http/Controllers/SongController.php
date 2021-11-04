@@ -36,4 +36,24 @@ class SongController extends Controller
             DB::rollBack();
         }
     }
+
+    public function update(Request $request){
+        DB::beginTransaction();
+        try {
+            $song = new Song();
+            $song->name = $request->name;
+            $song->description = $request->description;
+            $song->file_mp3 = $request->file_mp3;
+            $song->image = $request->image;
+            $song->author = $request->author;
+            $song->album = $request->album;
+            $song->category_id = $request->category_id;
+            $song->user_id = $request->user_id;
+            $song->listens = 0;
+            $song->save();
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+        }
+    }
 }
