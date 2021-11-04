@@ -27,8 +27,6 @@ class UpdateProfileUserRequest extends FormRequest
             'full_name' => 'required|',
             'phone' => 'required|numeric|digits:10',
             'address' => 'required|',
-            'email' => 'required|email',
-            'avatar' => '',
         ];
     }
 
@@ -40,9 +38,6 @@ class UpdateProfileUserRequest extends FormRequest
             'phone.numeric'=>'Trường này có định dạng là số !',
             'phone.digits'=>'Trường này bắt buộc có 10 số !',
             'address.required'=>'Trường này không được để trống !',
-            'email.required'=>'Trường này không được để trống !',
-            'email.email'=>'Trường này có định dạng là email',
-            'email.unique'=>'Email này đã tồn tại',
         ];
     }
 }

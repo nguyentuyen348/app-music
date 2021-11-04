@@ -28,7 +28,7 @@ Route::get('categories', [SongController::class, 'getCategories']);
 Route::post('logout', [LoginController::class, 'logout']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::prefix('users')->group(function () {
-        Route::get('{id}/profile', [UserController::class, 'profile']);
+        Route::get('{id}', [UserController::class, 'profile']);
         Route::put('{id}/update', [UserController::class, 'update']);
         Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
     });
