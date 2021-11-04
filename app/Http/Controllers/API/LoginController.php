@@ -82,4 +82,8 @@ class LoginController extends Controller
         return response()->json(compact('user'));
     }
 
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
 }

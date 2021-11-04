@@ -32,6 +32,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::put('{id}/update', [UserController::class, 'update']);
         Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
         Route::post('create-song', [SongController::class, 'store']);
+        Route::post('me',[LoginController::class,'me']);
     });
 });
 
