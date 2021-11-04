@@ -22,7 +22,7 @@ class UserController extends Controller
         $user->full_name=$request->full_name;
         $user->phone=$request->phone;
         $user->address=$request->address;
-       /* $user->avatar=$request->avatar;*/
+        $user->avatar=$request->avatar;
         $user->save();
         return response()->json(compact('user'));
     }
