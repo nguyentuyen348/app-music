@@ -21,13 +21,8 @@ class UserController extends Controller
         $user=User::findOrFail($id);
         $user->full_name=$request->full_name;
         $user->phone=$request->phone;
-        $user->email=$request->email;
         $user->address=$request->address;
-        if ($request->hasFile('avatar')){
-            $path=$request->file('avatar');
-            $avatar=$path->store('avatars','public');
-            $user->avatar=$avatar;
-        }
+       /* $user->avatar=$request->avatar;*/
         $user->save();
         return response()->json(compact('user'));
     }
