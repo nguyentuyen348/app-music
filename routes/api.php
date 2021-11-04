@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
+Route::get('categories', [SongController::class, 'getCategories']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('logout', [LoginController::class, 'logout']);
     Route::prefix('users')->group(function () {
