@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::get('my-songs/{id}',[SongController::class,'getMySongs']);
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::get('categories', [SongController::class, 'getCategories']);
