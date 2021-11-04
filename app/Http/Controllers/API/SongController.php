@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Song;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
@@ -47,5 +48,11 @@ class SongController extends Controller
     {
         $categories = Category::all();
         return response()->json($categories);
+    }
+
+    public function getMySongs($id)
+    {
+        $songs = DB::table('songs')->where('user_id',$id)->get();
+        return response()->json($songs);
     }
 }
