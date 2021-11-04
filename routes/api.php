@@ -31,6 +31,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}', [UserController::class, 'profile']);
         Route::put('{id}/update', [UserController::class, 'update']);
         Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
+        Route::post('me',[LoginController::class,'me']);
+
     });
     Route::prefix('songs')->group(function () {
         Route::post('create-song', [SongController::class, 'store']);
@@ -38,3 +40,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::put('{id}/update-song', [SongController::class, 'update']);
     });
 });
+
+
