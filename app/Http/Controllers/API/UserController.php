@@ -1,12 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileUserRequest;
 use App\Models\User;
-use http\Message;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {

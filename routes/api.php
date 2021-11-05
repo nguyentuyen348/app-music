@@ -31,14 +31,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}', [UserController::class, 'profile']);
         Route::put('{id}/update', [UserController::class, 'update']);
         Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
-        Route::post('me',[LoginController::class,'me']);
-
+        Route::post('me', [LoginController::class, 'me']);
     });
     Route::prefix('songs')->group(function () {
         Route::post('create-song', [SongController::class, 'store']);
-        Route::get('{id}/detailSong', [SongController::class, 'getByIdSong']);
+        Route::get('{id}/detailSong', [SongController::class, 'getSongById']);
         Route::put('{id}/update-song', [SongController::class, 'update']);
     });
 });
 Route::get('new-songs', [SongController::class, 'getNewSongs']);
-
