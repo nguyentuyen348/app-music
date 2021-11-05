@@ -36,4 +36,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     });
 });
 Route::get('new-songs', [SongController::class, 'getNewSongs']);
+Route::get('song/{id}', [SongController::class, 'getSong']);
+Route::get('songs', [SongController::class, 'getSongs']);
 
