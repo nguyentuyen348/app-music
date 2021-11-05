@@ -52,7 +52,14 @@ class SongController extends Controller
 
     public function getMySongs($id)
     {
-        $songs = DB::table('songs')->where('user_id',$id)->get();
+        $songs = DB::table('songs')->where('user_id', $id)->get();
         return response()->json($songs);
     }
+
+    public function getNewSongs()
+    {
+        $songs = DB::table('songs')->orderByDesc('id')->limit(10)->get();
+        return response()->json($songs);
+    }
+
 }
