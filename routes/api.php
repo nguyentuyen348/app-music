@@ -40,4 +40,5 @@ Route::prefix('songs')->group(function (){
     Route::get('{id}/play',[SongController::class,'detailSong']);
 });
 
+Route::get('new-songs', [SongController::class, 'getNewSongs']);
 

@@ -62,4 +62,11 @@ class SongController extends Controller
             $song=Song::findOrFail($id);
             return response()->json($song);
     }
+
+    public function getNewSongs()
+    {
+        $songs = DB::table('songs')->orderByDesc('id')->limit(10)->get();
+        return response()->json($songs);
+    }
+
 }
