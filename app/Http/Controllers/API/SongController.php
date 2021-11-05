@@ -50,7 +50,7 @@ class SongController extends Controller
         return response()->json($categories);
     }
 
-    public function getByIdSong($id){
+    public function getSongById($id){
         $song = auth()->user()->songs()->findOrFail($id);
         return response()->json($song);
     }
