@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('my-songs/{id}',[SongController::class,'getMySongs']);
+Route::get('my-songs/{id}', [SongController::class, 'getMySongs']);
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::get('categories', [SongController::class, 'getCategories']);
@@ -32,7 +32,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::put('{id}/update', [UserController::class, 'update']);
         Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
         Route::post('me',[LoginController::class,'me']);
-        
+
     });
     Route::prefix('songs')->group(function () {
         Route::post('create-song', [SongController::class, 'store']);
@@ -40,5 +40,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::put('{id}/update-song', [SongController::class, 'update']);
     });
 });
-
+Route::get('new-songs', [SongController::class, 'getNewSongs']);
 
