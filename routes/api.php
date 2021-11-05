@@ -36,8 +36,11 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::put('change-password', [UserController::class, 'changePassword']);
     });
 });
-Route::get('new-songs', [SongController::class, 'getNewSongs']);
-Route::get('song/{id}', [SongController::class, 'getSong']);
-Route::get('songs', [SongController::class, 'getSongs']);
 
+Route::prefix('songs')->group(function (){
+    Route::get('list',[SongController::class,'getAll']);
+    Route::get('{id}/play',[SongController::class,'detailSong']);
+});
+
+Route::get('new-songs', [SongController::class, 'getNewSongs']);
 
