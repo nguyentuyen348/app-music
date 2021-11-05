@@ -55,4 +55,11 @@ class SongController extends Controller
         $songs = DB::table('songs')->where('user_id',$id)->get();
         return response()->json($songs);
     }
+
+
+    public function detailSong($id)
+    {
+            $song=Song::findOrFail($id);
+            return response()->json($song);
+    }
 }

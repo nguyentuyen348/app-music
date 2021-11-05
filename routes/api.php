@@ -36,4 +36,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     });
 });
 
+Route::prefix('songs')->group(function (){
+    Route::get('{id}/play',[SongController::class,'detailSong']);
+});
+
 
