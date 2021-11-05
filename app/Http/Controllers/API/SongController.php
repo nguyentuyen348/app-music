@@ -63,6 +63,12 @@ class SongController extends Controller
             return response()->json($song);
     }
 
+    public function getAll()
+    {
+        $songs= DB::table('songs')->get();
+        return response()->json($songs);
+    }
+
     public function getNewSongs()
     {
         $songs = DB::table('songs')->orderByDesc('id')->limit(10)->get();
