@@ -75,4 +75,16 @@ class SongController extends Controller
         return response()->json($songs);
     }
 
+    public function getSong($id)
+    {
+        $song = Song::find($id);
+        return response()->json($song);
+    }
+
+    public function getSongs()
+    {
+        $songs = Song::all();
+        return response()->json($songs);
+    }
+
 }
