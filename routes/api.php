@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('my-songs/{id}',[SongController::class,'getMySongs']);
+
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::get('categories', [SongController::class, 'getCategories']);
@@ -31,16 +31,20 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}', [UserController::class, 'profile']);
         Route::put('{id}/update', [UserController::class, 'update']);
         Route::post('user', [LoginController::class, 'getAuthenticatedUser']);
-        Route::post('create-song', [SongController::class, 'store']);
         Route::post('me',[LoginController::class,'me']);
     });
     Route::prefix('songs')->group(function () {
+        Route::get('my-songs/{id}',[SongController::class,'getMySongs']);
         Route::post('create-song', [SongController::class, 'store']);
         Route::get('{id}/detailSong', [SongController::class, 'getSongById']);
-        Route::put('{id}/update-song', [SongController::class, 'update']);
-        Route::get('list',[SongController::class,'getAll']);
-        Route::get('{id}/play',[SongController::class,'detailSong']);
+        Route::put('{id}/update', [SongController::class, 'update']);
     });
 });
+
+Route::prefix('songs')->group(function (){
+    Route::get('list',[SongController::class,'getAll']);
+    Route::get('{id}/play',[SongController::class,'detailSong']);
+});
+
 Route::get('new-songs', [SongController::class, 'getNewSongs']);
 
