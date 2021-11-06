@@ -39,6 +39,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 Route::prefix('songs')->group(function (){
     Route::get('list',[SongController::class,'getAll']);
     Route::get('{id}/play',[SongController::class,'detailSong']);
+    Route::get('search/{name}',[SongController::class,'search']);
 });
 
 Route::get('new-songs', [SongController::class, 'getNewSongs']);
