@@ -75,16 +75,16 @@ class SongController extends Controller
         return response()->json($songs);
     }
 
-    public function getSong($id)
+    public function search($name)
     {
-        $song = Song::find($id);
-        return response()->json($song);
+        $empty=[];
+        $songs = Song::where('name', 'LIKE', '%'. $name. '%')->get();
+        if($songs){
+            return response()->json($songs);
+        }
+        else
+        {
+            return response()->json($empty);
+        }
     }
-
-    public function getSongs()
-    {
-        $songs = Song::all();
-        return response()->json($songs);
-    }
-
 }
