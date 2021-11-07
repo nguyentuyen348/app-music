@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Playlist;
+use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -62,5 +63,10 @@ class User extends Authenticatable implements JWTSubject
     public function songs()
     {
         return $this->hasMany(Song::class);
+    }
+
+    public function playlists()
+    {
+        return $this->hasMany(Playlist::class);
     }
 }
