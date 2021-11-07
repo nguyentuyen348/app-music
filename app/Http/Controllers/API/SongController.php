@@ -1,15 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Song;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class SongController extends Controller
 {
@@ -50,6 +47,40 @@ class SongController extends Controller
         return response()->json($categories);
     }
 
+    public function getSongById($id){
+        $song = auth()->user()->songs()->findOrFail($id);
+        return response()->json($song);
+    }
+
+    public function update(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $song = Song::findOrFail($id);
+            $song->name = $request->name;
+            $song->description = $request->description;
+            $song->file_mp3 = $request->file_mp3;
+            $song->image = $request->image;
+            $song->author = $request->author;
+            $song->album = $request->album;
+            $song->category_id = $request->category_id;
+            $song->save();
+            DB::commit();
+            $data = [
+                'status' => 'success',
+                'message' => 'Sửa bài hát thành công'
+            ];
+            return response()->json($data);
+        } catch (Exception $exception) {
+            DB::rollBack();
+            $data = [
+                'status' => 'error',
+                'message' => 'Sửa bài hát thất bại'
+            ];
+            return response()->json($data);
+        }
+    }
+
     public function getMySongs($id)
     {
         $songs = DB::table('songs')->where('user_id',$id)->get();
@@ -71,7 +102,7 @@ class SongController extends Controller
 
     public function getNewSongs()
     {
-        $songs = DB::table('songs')->orderByDesc('id')->limit(10)->get();
+        $songs = DB::table('songs')->orderByDesc('id')->limit(5)->get();
         return response()->json($songs);
     }
 
