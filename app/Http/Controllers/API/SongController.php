@@ -118,4 +118,11 @@ class SongController extends Controller
             return response()->json($empty);
         }
     }
+
+    public function delete($id)
+    {
+        $song= Song::findOrFail($id);
+        $song->delete();
+        return response()->json($song);
+    }
 }
