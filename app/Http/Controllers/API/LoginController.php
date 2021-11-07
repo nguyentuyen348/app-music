@@ -50,7 +50,7 @@ class LoginController extends Controller
                     'status' => 'success',
                     'message' => 'Đăng xuất thành công'
                 ]);
-        } catch (JWTException $exception) {
+        } catch (\Exception $exception) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Đăng xuất thất bại'
