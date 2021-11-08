@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Song;
+use Mockery\Exception;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Mockery\Exception;
+use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class SongController extends Controller
 {
@@ -31,7 +32,7 @@ class SongController extends Controller
                 'message' => 'Thêm bài hát thành công'
             ];
             return response()->json($data);
-        } catch (Exception $exception) {
+        } catch (JWTException $exception) {
             DB::rollBack();
             $data = [
                 'status' => 'error',
@@ -71,7 +72,7 @@ class SongController extends Controller
                 'message' => 'Sửa bài hát thành công'
             ];
             return response()->json($data);
-        } catch (Exception $exception) {
+        } catch (JWTException $exception) {
             DB::rollBack();
             $data = [
                 'status' => 'error',
@@ -117,5 +118,12 @@ class SongController extends Controller
         {
             return response()->json($empty);
         }
+    }
+
+    public function delete($id)
+    {
+        $song= Song::findOrFail($id);
+        $song->delete();
+        return response()->json($song);
     }
 }
