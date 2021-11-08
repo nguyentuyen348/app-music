@@ -19,4 +19,9 @@ class Playlist extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    function users()
+    {
+        return $this->belongsToMany(Song::class, 'playlist_song');
+    }
 }

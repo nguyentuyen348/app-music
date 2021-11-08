@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use Carbon\Carbon;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
+
 
 class LoginController extends Controller
 {
@@ -20,7 +22,7 @@ class LoginController extends Controller
             'email' => $email,
             'password' => $password
         ];
-        $token = JWTAuth::attempt($credentials_username);
+        $token = JWTAuth::attempt($credentials_username,Carbon::now()->addDays(7)->timestamp);
         try {
             if ($token) {
                 $data = [
