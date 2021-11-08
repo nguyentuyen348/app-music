@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use App\Models\Song;
 use Mockery\Exception;
 use App\Models\Category;
@@ -48,7 +49,8 @@ class SongController extends Controller
         return response()->json($categories);
     }
 
-    public function getSongById($id){
+    public function getSongById($id)
+    {
         $song = auth()->user()->songs()->findOrFail($id);
         return response()->json($song);
     }
@@ -84,20 +86,20 @@ class SongController extends Controller
 
     public function getMySongs($id)
     {
-        $songs = DB::table('songs')->where('user_id',$id)->get();
+        $songs = DB::table('songs')->where('user_id', $id)->get();
         return response()->json($songs);
     }
 
 
     public function detailSong($id)
     {
-            $song=Song::findOrFail($id);
-            return response()->json($song);
+        $song = Song::findOrFail($id);
+        return response()->json($song);
     }
 
     public function getAll()
     {
-        $songs= DB::table('songs')->get();
+        $songs = DB::table('songs')->get();
         return response()->json($songs);
     }
 
@@ -109,20 +111,18 @@ class SongController extends Controller
 
     public function search($name)
     {
-        $empty=[];
-        $songs = Song::where('name', 'LIKE', '%'. $name. '%')->get();
-        if($songs){
+        $empty = [];
+        $songs = Song::where('name', 'LIKE', '%' . $name . '%')->get();
+        if ($songs) {
             return response()->json($songs);
-        }
-        else
-        {
+        } else {
             return response()->json($empty);
         }
     }
 
     public function delete($id)
     {
-        $song= Song::findOrFail($id);
+        $song = Song::findOrFail($id);
         $song->delete();
         return response()->json($song);
     }

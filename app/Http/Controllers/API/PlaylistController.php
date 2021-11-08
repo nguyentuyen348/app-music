@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Playlist;
+use App\Models\Playlist_song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -35,5 +36,42 @@ class PlaylistController extends Controller
             ];
             return response()->json($data);
         }
+    }
+
+    public function myPlaylist($id)
+    {
+        $playList = DB::table('playlists')->where('user_id', $id)->get();
+        return response()->json($playList);
+    }
+
+    public function addSong(Request $request)
+    {
+        $playlistSong = new Playlist_song();
+        $playlistSong->playlist_id = $request->playlist_id;
+        $playlistSong->song_id = $request->song_id;
+        $playlistSong->save();
+        return response()->json($playlistSong);
+    }
+
+    public function getById($id)
+    {
+        $playlist = Playlist::find($id);
+        return response()->json($playlist);
+    }
+
+    public function getSong($id)
+    {
+        $listSongs = DB::table('songs')
+            ->join('playlist_song', 'songs.id', '=', 'playlist_song.song_id')
+            ->where('playlist_id', $id)
+            ->get();
+        return response()->json($listSongs);
+    }
+
+    public function delete($id)
+    {
+        $song = Playlist_song::find($id);
+        $song->delete();
+        return response()->json('Xóa thành công');
     }
 }
