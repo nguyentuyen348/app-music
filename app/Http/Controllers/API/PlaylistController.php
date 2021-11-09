@@ -71,11 +71,37 @@ class PlaylistController extends Controller
 
     public function addSong(Request $request)
     {
-        $playlistSong = new Playlist_song();
-        $playlistSong->playlist_id = $request->playlist_id;
-        $playlistSong->song_id = $request->song_id;
-        $playlistSong->save();
-        return response()->json($playlistSong);
+        $count = DB::table('playlist_song')->where('playlist_id', $request->playlist_id)->count('playlist_id');
+        $songs = DB::table('playlist_song')->where('playlist_id', $request->playlist_id)->get('song_id');
+        $check = true;
+        for ($i = 0; $i < count($songs); $i++) {
+            if ($request->song_id == $songs[$i]->song_id) {
+                $check = false;
+            }
+        }
+        if ($count <= 20 && $check) {
+            $playlistSong = new Playlist_song();
+            $playlistSong->playlist_id = $request->playlist_id;
+            $playlistSong->song_id = $request->song_id;
+            $playlistSong->save();
+            $data = [
+                'status' => 'success',
+                'message' => 'Thêm bài hát vào playlist thành công',
+            ];
+            return response()->json($data);
+        } else if ($count > 20) {
+            $data = [
+                'status' => 'errorLimit',
+                'message' => 'Playlist chỉ thêm được 20 bài hát vui lòng tạo playlist mới'
+            ];
+            return response()->json($data);
+        } else {
+            $data = [
+                'status' => 'errorMatch',
+                'message' => 'Bài hát đã có trong playlist vui lòng chọn bài khác'
+            ];
+            return response()->json($data);
+        }
     }
 
     public function getById($id)
@@ -98,6 +124,12 @@ class PlaylistController extends Controller
         $song = Playlist_song::find($id);
         $song->delete();
         return response()->json('Xóa thành công');
+    }
+
+    public function getSongId($id)
+    {
+        $songId = DB::table('playlist_song')->where('id', $id)->get();
+        return response()->json($songId);
     }
 
     public function delete_playlist($id)

@@ -50,6 +50,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}/get-songs', [PlaylistController::class, 'getSong']);
         Route::post('add-song', [PlaylistController::class, 'addSong']);
         Route::get('{id}/delete', [PlaylistController::class, 'delete']);
+        Route::get('{id}/song-id', [PlaylistController::class, 'getSongId']);
         Route::get('{id}/delete_playlist', [PlaylistController::class, 'delete_playlist']);
     });
 });
