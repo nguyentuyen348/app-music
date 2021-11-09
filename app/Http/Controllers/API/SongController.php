@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Playlist;
 use App\Models\Song;
+use App\Models\Song_like;
 use Mockery\Exception;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -125,5 +126,59 @@ class SongController extends Controller
         $song = Song::findOrFail($id);
         $song->delete();
         return response()->json($song);
+    }
+
+    public function getSongManyListens()
+    {
+        $songs = DB::table('songs')->orderByDesc('listens')->limit(5)->get();
+        return response()->json($songs);
+    }
+
+
+    public function addLiked(Request $request)
+    {
+        $song = DB::table('song_like')->where('song_id', $request->song_id)->get();
+        $check = true;
+        for ($i = 0; $i < count($song); $i++) {
+            if ($request->user_id == $song[$i]->user_id) {
+                $check = false;
+            }
+        }
+        if ($check) {
+            $songLiked = new Song_like();
+            $songLiked->song_id = $request->song_id;
+            $songLiked->user_id = $request->user_id;
+            $songLiked->status = SongConstant::LIKED;
+            $songLiked->save();
+            $data = [
+                'status' => 'liked',
+                'message' => 'Đã thích',
+                'check' => $check
+            ];
+            return response()->json($data);
+        }
+        $getId = DB::table('song_like')
+            ->where('song_id', $request->song_id)
+            ->where('user_id', $request->user_id)->get();
+        $changeStatus = Song_like::find($getId[0]->id);
+        if ($changeStatus->status == SongConstant::LIKED) {
+            $changeStatus->status = SongConstant::UNLIKED;
+            $changeStatus->save();
+            $data = [
+                'status' => 'unliked',
+                'message' => 'Không thích',
+                'check' => $check
+            ];
+            return response()->json($data);
+        } else {
+            $changeStatus->status = SongConstant::LIKED;
+            $changeStatus->save();
+            $data = [
+                'status' => 'liked',
+                'message' => 'Đã thích',
+                'check' => $check
+            ];
+            return response()->json($data);
+        }
     }
 }

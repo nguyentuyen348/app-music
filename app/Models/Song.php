@@ -20,8 +20,13 @@ class Song extends Model
         return $this->belongsTo(User::class);
     }
 
-    function playlists()
+    public function playlists()
     {
         return $this->belongsToMany(Playlist::class, 'playlist_song');
+    }
+
+    public function usersLiked()
+    {
+        return $this->belongsToMany(User::class, 'song_like');
     }
 }
