@@ -44,11 +44,13 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     });
     Route::prefix('playlists')->group(function () {
         Route::post('create-playlist', [PlaylistController::class, 'store']);
+        Route::post('{id}/update', [PlaylistController::class, 'update']);
         Route::get('my-playlist/{id}', [PlaylistController::class, 'myPlaylist']);
         Route::get('{id}/get-playlist', [PlaylistController::class, 'getById']);
         Route::get('{id}/get-songs', [PlaylistController::class, 'getSong']);
         Route::post('add-song', [PlaylistController::class, 'addSong']);
         Route::get('{id}/delete', [PlaylistController::class, 'delete']);
+        Route::get('{id}/delete_playlist', [PlaylistController::class, 'delete_playlist']);
     });
 });
 

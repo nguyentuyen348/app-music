@@ -38,6 +38,31 @@ class PlaylistController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $playlist = Playlist::findOrFail($id);
+            $playlist->name = $request->name;
+            $playlist->description = $request->description;
+            $playlist->category_id = $request->category_id;
+            $playlist->save();
+            DB::commit();
+            $data = [
+                'status' => 'success',
+                'message' => 'Sửa playlist thành công'
+            ];
+            return response()->json($data);
+        } catch (JWTException $exception) {
+            DB::rollBack();
+            $data = [
+                'status' => 'error',
+                'message' => 'Sửa playlist thất bại'
+            ];
+            return response()->json($data);
+        }
+    }
+
     public function myPlaylist($id)
     {
         $playList = DB::table('playlists')->where('user_id', $id)->get();
@@ -71,6 +96,13 @@ class PlaylistController extends Controller
     public function delete($id)
     {
         $song = Playlist_song::find($id);
+        $song->delete();
+        return response()->json('Xóa thành công');
+    }
+
+    public function delete_playlist($id)
+    {
+        $song = Playlist::find($id);
         $song->delete();
         return response()->json('Xóa thành công');
     }
