@@ -7,6 +7,7 @@ use App\Models\Playlist_song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Mockery\Exception;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class PlaylistController extends Controller
@@ -117,6 +118,16 @@ class PlaylistController extends Controller
             ->where('playlist_id', $id)
             ->get();
         return response()->json($listSongs);
+    }
+
+    public function search($name)
+    {
+        $playlists = Playlist::where('name', 'LIKE', '%' . $name . '%')->get();
+        if ($playlists) {
+            return response()->json($playlists);
+        }
+        $playlists=[];
+        return response()->json($playlists);
     }
 
     public function delete($id)
