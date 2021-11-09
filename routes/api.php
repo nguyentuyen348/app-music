@@ -57,7 +57,9 @@ Route::prefix('songs')->group(function () {
     Route::get('{id}/play', [SongController::class, 'detailSong']);
     Route::get('search/{name}', [SongController::class, 'search']);
 });
-
+Route::prefix('playlists')->group(function (){
+    Route::get('search/{name}',[PlaylistController::class,'search']);
+});
 Route::get('new-songs', [SongController::class, 'getNewSongs']);
 
 
