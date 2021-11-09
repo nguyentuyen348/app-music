@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Playlist;
 use App\Models\Song;
 use App\Models\Song_like;
 use Mockery\Exception;
@@ -112,13 +113,12 @@ class SongController extends Controller
 
     public function search($name)
     {
-        $empty = [];
         $songs = Song::where('name', 'LIKE', '%' . $name . '%')->get();
         if ($songs) {
             return response()->json($songs);
-        } else {
-            return response()->json($empty);
         }
+        $songs=[];
+        return response()->json($songs);
     }
 
     public function delete($id)

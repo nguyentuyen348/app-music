@@ -7,6 +7,7 @@ use App\Models\Playlist_song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Mockery\Exception;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class PlaylistController extends Controller
@@ -33,6 +34,31 @@ class PlaylistController extends Controller
             $data = [
                 'status' => 'error',
                 'message' => 'Thêm playlist thất bại'
+            ];
+            return response()->json($data);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $playlist = Playlist::findOrFail($id);
+            $playlist->name = $request->name;
+            $playlist->description = $request->description;
+            $playlist->category_id = $request->category_id;
+            $playlist->save();
+            DB::commit();
+            $data = [
+                'status' => 'success',
+                'message' => 'Sửa playlist thành công'
+            ];
+            return response()->json($data);
+        } catch (JWTException $exception) {
+            DB::rollBack();
+            $data = [
+                'status' => 'error',
+                'message' => 'Sửa playlist thất bại'
             ];
             return response()->json($data);
         }
@@ -94,6 +120,16 @@ class PlaylistController extends Controller
         return response()->json($listSongs);
     }
 
+    public function search($name)
+    {
+        $playlists = Playlist::where('name', 'LIKE', '%' . $name . '%')->get();
+        if ($playlists) {
+            return response()->json($playlists);
+        }
+        $playlists=[];
+        return response()->json($playlists);
+    }
+
     public function delete($id)
     {
         $song = Playlist_song::find($id);
@@ -105,5 +141,12 @@ class PlaylistController extends Controller
     {
         $songId = DB::table('playlist_song')->where('id', $id)->get();
         return response()->json($songId);
+    }
+
+    public function delete_playlist($id)
+    {
+        $song = Playlist::find($id);
+        $song->delete();
+        return response()->json('Xóa thành công');
     }
 }
