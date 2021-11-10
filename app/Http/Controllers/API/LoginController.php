@@ -22,7 +22,8 @@ class LoginController extends Controller
             'email' => $email,
             'password' => $password
         ];
-        $token = JWTAuth::attempt($credentials_username,Carbon::now()->addDays(7)->timestamp);
+        config()->set('jwt.ttl', 60*24*7);
+        $token = JWTAuth::attempt($credentials_username);
         try {
             if ($token) {
                 $data = [

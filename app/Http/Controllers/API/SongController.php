@@ -107,7 +107,10 @@ class SongController extends Controller
 
     public function getNewSongs()
     {
-        $songs = DB::table('songs')->orderByDesc('id')->limit(5)->get();
+        $songs = DB::table('songs')
+            ->join('song_like', 'songs.id', '=', 'song_like.song_id')
+            ->groupBy('songs.id')
+            ->orderByDesc('songs.id')->limit(5)->get();
         return response()->json($songs);
     }
 
@@ -117,7 +120,7 @@ class SongController extends Controller
         if ($songs) {
             return response()->json($songs);
         }
-        $songs=[];
+        $songs = [];
         return response()->json($songs);
     }
 
@@ -130,10 +133,23 @@ class SongController extends Controller
 
     public function getSongManyListens()
     {
-        $songs = DB::table('songs')->orderByDesc('listens')->limit(5)->get();
+        $songs = DB::table('songs')
+            ->join('song_like', 'songs.id', '=', 'song_like.song_id')
+            ->groupBy('songs.id')
+            ->orderByDesc('listens')->limit(5)->get();
         return response()->json($songs);
     }
 
+    public function getSongManyLiked()
+    {
+        $songs = DB::table('songs')
+            ->select("songs.*", "song_like.status", DB::raw("COUNT(song_id) as count_liked"))
+            ->join('song_like', 'songs.id', '=', 'song_like.song_id')
+            ->where('status', 1)
+            ->groupBy('songs.id')
+            ->orderByDesc('count_liked')->limit(5)->get();
+        return response()->json($songs);
+    }
 
     public function addLiked(Request $request)
     {
@@ -151,7 +167,6 @@ class SongController extends Controller
             $songLiked->status = SongConstant::LIKED;
             $songLiked->save();
             $data = [
-                'status' => 'liked',
                 'message' => 'Đã thích',
                 'check' => $check
             ];
@@ -166,8 +181,7 @@ class SongController extends Controller
             $changeStatus->save();
             $data = [
                 'status' => 'unliked',
-                'message' => 'Không thích',
-                'check' => $check
+                'message' => 'Thích',
             ];
             return response()->json($data);
         } else {
@@ -176,7 +190,6 @@ class SongController extends Controller
             $data = [
                 'status' => 'liked',
                 'message' => 'Đã thích',
-                'check' => $check
             ];
             return response()->json($data);
         }
