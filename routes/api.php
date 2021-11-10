@@ -68,10 +68,11 @@ Route::prefix('songs')->group(function () {
     Route::get('search/{name}', [SongController::class, 'search']);
     Route::get('new-songs', [SongController::class, 'getNewSongs']);
     Route::get('many-listens', [SongController::class, 'getSongManyListens']);
+    Route::get('many-liked', [SongController::class, 'getSongManyLiked']);
 });
 
-Route::prefix('playlists')->group(function (){
-    Route::get('search/{name}',[PlaylistController::class,'search']);
+Route::prefix('playlists')->group(function () {
+    Route::get('search/{name}', [PlaylistController::class, 'search']);
 });
 
 
