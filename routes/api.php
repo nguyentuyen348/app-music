@@ -54,6 +54,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}/song-id', [PlaylistController::class, 'getSongId']);
         Route::get('{id}/delete_playlist', [PlaylistController::class, 'delete_playlist']);
     });
+    Route::prefix('singers')->group(function (){
+        Route::post('create',[\App\Http\Controllers\API\SingerController::class,'create']);
+        Route::get('list',[\App\Http\Controllers\API\SingerController::class,'getAll']);
+    });
+
+
 });
 
 Route::prefix('songs')->group(function () {
