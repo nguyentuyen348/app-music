@@ -29,6 +29,11 @@ class SongController extends Controller
             $song->user_id = $request->user_id;
             $song->listens = 0;
             $song->save();
+            $songLike = new Song_like();
+            $songLike->song_id = $song->id;
+            $songLike->user_id = 2;
+            $songLike->status = SongConstant::UNLIKED;
+            $songLike->save();
             DB::commit();
             $data = [
                 'status' => 'success',
