@@ -109,7 +109,7 @@ class SongController extends Controller
 (SELECT songs.name,songs.file_mp3,songs.id,songs.image,songs.author FROM songs) t1
 LEFT JOIN
 (SELECT song_like.status,song_like.song_id,song_like.user_id FROM songs JOIN song_like ON songs.id = song_like.song_id WHERE song_like.user_id=?) t2
-ON t1.id=t2.song_id ORDER  BY id DESC', [$user_id]);
+ON t1.id=t2.song_id ORDER  BY id DESC LIMIT 5', [$user_id]);
         return response()->json($songs);
     }
 
