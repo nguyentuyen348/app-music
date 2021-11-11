@@ -126,7 +126,7 @@ class PlaylistController extends Controller
         if ($playlists) {
             return response()->json($playlists);
         }
-        $playlists=[];
+        $playlists = [];
         return response()->json($playlists);
     }
 
@@ -148,5 +148,13 @@ class PlaylistController extends Controller
         $song = Playlist::find($id);
         $song->delete();
         return response()->json('Xóa thành công');
+    }
+
+    public function playPlaylist($id)
+    {
+        $songs = DB::table('songs')
+            ->join('playlist_song', 'songs.id', '=', 'playlist_song.song_id')
+            ->where('playlist_id', $id)->get();
+        return response()->json($songs);
     }
 }
