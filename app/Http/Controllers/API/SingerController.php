@@ -16,25 +16,25 @@ class SingerController extends Controller
     {
         DB::beginTransaction();
         try {
-        $singer=new Singer();
-        $singer->name=$request->name;
-        $singer->gender=$request->gender;
-        $singer->date_of_birth=$request->date_of_birth;
-        $singer->story=$request->story;
-        $singer->band=$request->band;
-        $singer->information=$request->information;
-        $singer->avatar=$request->avatar;
-        $singer->save();
+            $singer = new Singer();
+            $singer->name = $request->name;
+            $singer->gender = $request->gender;
+            $singer->date_of_birth = $request->date_of_birth;
+            $singer->story = $request->story;
+            $singer->band = $request->band;
+            $singer->information = $request->information;
+            $singer->avatar = $request->avatar;
+            $singer->save();
             DB::commit();
             $data = [
                 'status' => 'success',
-                'message' => 'Thêm bài hát thành công'
+                'message' => 'Thêm ca sĩ thành công'
             ];
             return response()->json($data);
         } catch (JWTException $exception) {
             $data = [
                 'status' => '500',
-                'message' => 'Thêm bài hát thất bại'
+                'message' => 'Thêm ca sĩ thất bại'
             ];
             DB::rollBack();
             return response()->json($data);
@@ -43,7 +43,7 @@ class SingerController extends Controller
 
     public function getAll()
     {
-        $singers=Singer::all();
+        $singers = Singer::all();
         return response()->json($singers);
     }
 
