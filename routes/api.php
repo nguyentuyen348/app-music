@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\SingerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\SongController;
@@ -56,8 +57,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}/play-playlist', [PlaylistController::class, 'playPlaylist']);
     });
     Route::prefix('singers')->group(function (){
-        Route::post('create',[\App\Http\Controllers\API\SingerController::class,'create']);
-        Route::get('list',[\App\Http\Controllers\API\SingerController::class,'getAll']);
+        Route::post('create',[SingerController::class,'create']);
+        Route::get('list',[SingerController::class,'getAll']);
     });
 
 

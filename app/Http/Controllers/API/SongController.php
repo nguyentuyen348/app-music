@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Playlist;
 use App\Models\Song;
 use App\Models\Song_like;
-use Mockery\Exception;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,11 +27,6 @@ class SongController extends Controller
             $song->user_id = $request->user_id;
             $song->listens = 0;
             $song->save();
-            $songLike = new Song_like();
-            $songLike->song_id = $song->id;
-            $songLike->user_id = $request->user_id;
-            $songLike->status = SongConstant::LIKED;
-            $songLike->save();
             DB::commit();
             $data = [
                 'status' => 'success',
@@ -116,7 +109,7 @@ class SongController extends Controller
 (SELECT songs.name,songs.file_mp3,songs.id,songs.image,songs.author FROM songs) t1
 LEFT JOIN
 (SELECT song_like.status,song_like.song_id,song_like.user_id FROM songs JOIN song_like ON songs.id = song_like.song_id WHERE song_like.user_id=?) t2
-ON t1.id=t2.song_id', [$user_id]);
+ON t1.id=t2.song_id ORDER  BY id DESC', [$user_id]);
         return response()->json($songs);
     }
 
@@ -139,10 +132,7 @@ ON t1.id=t2.song_id', [$user_id]);
 
     public function getSongManyListens()
     {
-        $songs = DB::table('songs')
-            ->join('song_like', 'songs.id', '=', 'song_like.song_id')
-            ->groupBy('songs.id')
-            ->orderByDesc('listens')->limit(5)->get();
+        $songs = DB::table('songs')->orderByDesc('listens')->limit(5)->get();
         return response()->json($songs);
     }
 
