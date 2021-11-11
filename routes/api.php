@@ -53,6 +53,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}/delete', [PlaylistController::class, 'delete']);
         Route::get('{id}/song-id', [PlaylistController::class, 'getSongId']);
         Route::get('{id}/delete_playlist', [PlaylistController::class, 'delete_playlist']);
+        Route::get('{id}/play-playlist', [PlaylistController::class, 'playPlaylist']);
     });
 });
 
@@ -60,7 +61,7 @@ Route::prefix('songs')->group(function () {
     Route::get('list', [SongController::class, 'getAll']);
     Route::get('{id}/play', [SongController::class, 'detailSong']);
     Route::get('search/{name}', [SongController::class, 'search']);
-    Route::get('new-songs', [SongController::class, 'getNewSongs']);
+    Route::get('{user_id}/new-songs', [SongController::class, 'getNewSongs']);
     Route::get('many-listens', [SongController::class, 'getSongManyListens']);
     Route::get('many-liked', [SongController::class, 'getSongManyLiked']);
 });

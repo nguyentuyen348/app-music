@@ -31,8 +31,8 @@ class SongController extends Controller
             $song->save();
             $songLike = new Song_like();
             $songLike->song_id = $song->id;
-            $songLike->user_id = 2;
-            $songLike->status = SongConstant::UNLIKED;
+            $songLike->user_id = $request->user_id;
+            $songLike->status = SongConstant::LIKED;
             $songLike->save();
             DB::commit();
             $data = [
@@ -110,12 +110,13 @@ class SongController extends Controller
         return response()->json($songs);
     }
 
-    public function getNewSongs()
+    public function getNewSongs($user_id)
     {
-        $songs = DB::table('songs')
-            ->join('song_like', 'songs.id', '=', 'song_like.song_id')
-            ->groupBy('songs.id')
-            ->orderByDesc('songs.id')->limit(5)->get();
+        $songs = DB::select('SELECT * FROM
+(SELECT songs.name,songs.file_mp3,songs.id,songs.image,songs.author FROM songs) t1
+LEFT JOIN
+(SELECT song_like.status,song_like.song_id,song_like.user_id FROM songs JOIN song_like ON songs.id = song_like.song_id WHERE song_like.user_id=?) t2
+ON t1.id=t2.song_id', [$user_id]);
         return response()->json($songs);
     }
 
@@ -172,8 +173,8 @@ class SongController extends Controller
             $songLiked->status = SongConstant::LIKED;
             $songLiked->save();
             $data = [
-                'message' => 'Đã thích',
-                'check' => $check
+                'status' => 'liked',
+                'message' => 'Đã thích'
             ];
             return response()->json($data);
         }
