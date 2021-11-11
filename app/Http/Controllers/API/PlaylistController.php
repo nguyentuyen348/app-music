@@ -115,7 +115,7 @@ class PlaylistController extends Controller
     {
         $listSongs = DB::table('songs')
             ->join('playlist_song', 'songs.id', '=', 'playlist_song.song_id')
-            ->where('playlist_id', $id)
+            ->where('playlist_id', $id)->orderByDesc('playlist_song.id')
             ->get();
         return response()->json($listSongs);
     }
